@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kabel USB-C 1 Meter - CampusReuse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== 3-Color Strict Palette (Rausch #ff385c, Ink #222222, Canvas #ffffff) ===== */
+    :root {
+      --color-primary: #ff385c;
+      --color-primary-active: #e00b41;
+      --color-ink: #222222;
+      --color-canvas: #ffffff;
+      --color-hairline: #2222221f;
+      --color-hairline-soft: #2222220f;
+      --color-surface-soft: #22222208;
+
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
+
+      --rounded-none: 0px;
+      --rounded-xs: 4px;
+      --rounded-sm: 8px;
+      --rounded-md: 14px;
+      --rounded-lg: 20px;
+      --rounded-xl: 32px;
+      --rounded-full: 9999px;
+
+      --space-xxs: 2px;
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 12px;
+      --space-base: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-xxl: 48px;
+      --space-section: 64px;
+
+      /* Layout (DESIGN.md: 1280px editorial, 1080px detail) */
+      --container-max: 1280px;
+      --shell-max: 1440px;
+      --container-detail: 1080px;
+      --detail-shell: 1240px;
+
+      --shadow-tier: rgba(34, 34, 34, 0.04) 0 0 0 1px, rgba(34, 34, 34, 0.06) 0 2px 8px 0;
+      --shadow-sticky: 0 -2px 10px rgba(34, 34, 34, 0.08);
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--color-canvas);
+      color: var(--color-ink);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      padding-bottom: 68px;
+      width: 100%;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    button {
+      font-family: var(--font-family);
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    /* TOP NAV (DESIGN.md: 80px height, 80px desktop gutters) */
+    .top-nav {
+      background-color: var(--color-canvas);
+      height: 80px;
+      border-bottom: 1px solid var(--color-hairline);
+      padding: 0 var(--space-lg);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    @media (min-width: 744px) {
+      .top-nav {
+        padding: 0 var(--space-xxl);
+      }
+    }
+
+    @media (min-width: 1128px) {
+      .top-nav {
+        padding: 0 max(80px, calc((100vw - 1280px) / 2));
+      }
+    }
+
+    .top-nav__brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      color: var(--color-primary);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      flex-shrink: 0;
+    }
+
+    .top-nav__brand svg {
+      width: 32px;
+      height: 32px;
+      fill: var(--color-primary);
+    }
+
+    @media (min-width: 744px) and (max-width: 899px) {
+      .top-nav__brand span {
+        display: none;
+      }
+    }
+
+    .product-tabs {
+      display: none;
+      align-items: center;
+      gap: var(--space-base);
+    }
+
+    .product-tab {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-ink);
+      opacity: 0.6;
+      border-bottom: 2px solid transparent;
+      transition: opacity 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+
+    .product-tab:hover {
+      opacity: 1;
+    }
+
+    .product-tab--active {
+      opacity: 1;
+      border-bottom-color: var(--color-ink);
+    }
+
+    .top-nav__utils {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .user-pill-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-xs) var(--space-xs) var(--space-xs) var(--space-md);
+      border: 1px solid var(--color-hairline);
+      border-radius: var(--rounded-full);
+      background-color: var(--color-canvas);
+      cursor: pointer;
+    }
+
+    .user-avatar-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--rounded-full);
+      background-color: var(--color-ink);
+      color: var(--color-canvas);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* MOBILE HEADER */
+    .mobile-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-md) var(--space-lg);
+      min-height: 64px;
+      background-color: var(--color-canvas);
+      position: sticky;
+      top: 80px; /* sticks directly below the 80px top-nav instead of hiding behind it */
+      z-index: 90;
+      border-bottom: 1px solid var(--color-hairline);
+    }
+
+    .icon-btn-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--rounded-full);
+      background-color: var(--color-surface-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-ink);
+    }
+
+    /* ===== CONTAINER (DESIGN.md: 1080px centered detail width) ===== */
+    .detail-container {
+      width: 100%;
+      max-width: var(--detail-shell);
+      margin: 0 auto;
+      padding: var(--space-lg);
+      box-sizing: border-box;
+    }
+
+    @media (min-width: 744px) {
+      .detail-container {
+        padding: var(--space-xl) var(--space-xxl) var(--space-section);
+      }
+    }
+
+    @media (min-width: 1128px) {
+      .detail-container {
+        padding: var(--space-xl) 80px var(--space-section);
+      }
+    }
+
+    /* Header Headline */
+    .listing-headline {
+      margin-bottom: var(--space-lg);
+    }
+
+    .listing-headline__title {
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 1.18;
+      color: var(--color-ink);
+      letter-spacing: -0.44px;
+      margin-bottom: var(--space-sm);
+    }
+
+    .listing-headline__bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      font-size: 14px;
+    }
+
+    .listing-headline__meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      color: var(--color-ink);
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 559px) {
+      .listing-headline__meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-xs);
+      }
+
+      .listing-headline__meta > span:nth-child(2),
+      .listing-headline__meta > span:nth-child(4) {
+        display: none;
+      }
+
+      .listing-actions {
+        width: 100%;
+      }
+    }
+
+    .meta-status {
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .meta-status__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--color-primary);
+    }
+
+    .meta-location {
+      color: var(--color-ink);
+      opacity: 0.7;
+    }
+
+    .listing-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-base);
+    }
+
+    .listing-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-ink);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* Photo Frame */
+    .listing-photo-frame {
+      border-radius: var(--rounded-md);
+      overflow: hidden;
+      aspect-ratio: 21 / 9;
+      background-color: var(--color-surface-soft);
+      margin-bottom: var(--space-xl);
+      border: 1px solid var(--color-hairline);
+      width: 100%;
+    }
+
+    .listing-photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @media (max-width: 743px) {
+      .listing-photo-frame {
+        aspect-ratio: 3 / 2;
+      }
+    }
+
+    /* 2-Column Layout (DESIGN.md: body + 32% reservation rail) */
+    .listing-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-xxl);
+      width: 100%;
+    }
+
+    @media (min-width: 900px) {
+      .listing-layout {
+        grid-template-columns: minmax(0, 1fr) 360px;
+      }
+    }
+
+    .listing-body {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    /* Rating Moment */
+    .rating-display-card {
+      border: 1px solid var(--color-hairline);
+      border-radius: var(--rounded-md);
+      padding: var(--space-xl) var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: var(--space-xl);
+      background-color: var(--color-canvas);
+    }
+
+    .rating-display__number-wrap {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      margin-bottom: var(--space-xs);
+    }
+
+    .laurel-icon {
+      width: 32px;
+      height: 32px;
+      color: var(--color-ink);
+    }
+
+    .rating-display__number {
+      /* Scales down on very narrow phones so the number + laurels never overflow the card */
+      font-size: clamp(48px, 15vw, 64px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      color: var(--color-ink);
+    }
+
+    .rating-display__tagline {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-ink);
+      margin-bottom: var(--space-xs);
+    }
+
+    .rating-display__desc {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--color-ink);
+      opacity: 0.7;
+      max-width: 500px;
+    }
+
+    .hairline-sep {
+      height: 1px;
+      background-color: var(--color-hairline);
+      margin: var(--space-xl) 0;
+    }
+
+    /* Host Card (DESIGN.md: white card, 14px radius, 24px padding) */
+    .host-card {
+      display: flex;
+      align-items: center;
+      gap: var(--space-base);
+      background-color: var(--color-canvas);
+      border: 1px solid var(--color-hairline);
+      border-radius: var(--rounded-md);
+      padding: var(--space-lg);
+    }
+
+    .host-card__avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--rounded-full);
+      background-color: var(--color-ink);
+      color: var(--color-canvas);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .host-card__info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .host-card__name {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--color-ink);
+    }
+
+    .host-card__meta {
+      font-size: 14px;
+      line-height: 1.43;
+      color: var(--color-ink);
+      opacity: 0.7;
+      margin-top: var(--space-xxs);
+    }
+
+    /* Amenity / Feature Rows (DESIGN.md: 12px row padding, no row borders) */
+    .amenity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .amenity-row {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-base);
+      padding: var(--space-md) 0;
+    }
+
+    .amenity-row__icon {
+      width: 24px;
+      height: 24px;
+      color: var(--color-ink);
+      flex-shrink: 0;
+      margin-top: var(--space-xxs);
+    }
+
+    .amenity-row__title {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--color-ink);
+      margin-bottom: var(--space-xxs);
+    }
+
+    .amenity-row__desc {
+      font-size: 14px;
+      line-height: 1.43;
+      color: var(--color-ink);
+      opacity: 0.7;
+    }
+
+    .description-block {
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--color-ink);
+      opacity: 0.85;
+    }
+
+    .section-heading {
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.18px;
+      color: var(--color-ink);
+      margin-bottom: var(--space-md);
+    }
+
+    .section-text {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--color-ink);
+      opacity: 0.75;
+    }
+
+    /* Sticky Reservation Rail (Strict 3 Colors, No Rupiah) */
+    .reservation-card {
+      display: none;
+      background-color: var(--color-canvas);
+      border-radius: var(--rounded-md);
+      border: 1px solid var(--color-hairline);
+      box-shadow: var(--shadow-tier);
+      padding: var(--space-lg);
+      position: sticky;
+      top: 104px;
+      height: fit-content;
+    }
+
+    .reservation-card__status-line {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-base);
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.18px;
+      color: var(--color-ink);
+    }
+
+    .reservation-card__box {
+      border: 1px solid var(--color-hairline);
+      border-radius: var(--rounded-sm);
+      overflow: hidden;
+      margin-bottom: var(--space-base);
+    }
+
+    .reservation-card__cell {
+      padding: var(--space-md) var(--space-base);
+      border-bottom: 1px solid var(--color-hairline);
+    }
+
+    .reservation-card__cell:last-child {
+      border-bottom: none;
+    }
+
+    .reservation-card__cell-label {
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.18;
+      text-transform: uppercase;
+      letter-spacing: 0.32px;
+      color: var(--color-ink);
+    }
+
+    .reservation-card__cell-val {
+      font-size: 14px;
+      line-height: 1.43;
+      color: var(--color-ink);
+      margin-top: var(--space-xxs);
+    }
+
+    .btn-primary {
+      width: 100%;
+      height: 48px;
+      background-color: var(--color-primary);
+      color: var(--color-canvas);
+      border-radius: var(--rounded-sm);
+      font-size: 16px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.15s;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--color-primary-active);
+    }
+
+    .reservation-card__note {
+      font-size: 13px;
+      line-height: 1.43;
+      color: var(--color-ink);
+      opacity: 0.7;
+      text-align: center;
+      margin-top: var(--space-md);
+    }
+
+    /* Handover details info */
+    .handover-info {
+      margin-top: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      font-size: 13px;
+      line-height: 1.43;
+      border-top: 1px solid var(--color-hairline);
+      padding-top: var(--space-md);
+    }
+
+    .handover-row {
+      display: flex;
+      justify-content: space-between;
+      color: var(--color-ink);
+    }
+
+    /* Mobile Sticky Bottom Bar */
+    .mobile-sticky-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: var(--color-canvas);
+      border-top: 1px solid var(--color-hairline);
+      box-shadow: var(--shadow-sticky);
+      padding: var(--space-sm) var(--space-lg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-base);
+      z-index: 95;
+      width: 100%;
+    }
+
+    .mobile-sticky-bar__left {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .mobile-sticky-bar__title {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--color-ink);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .mobile-sticky-bar__status {
+      font-size: 13px;
+      line-height: 1.23;
+      color: var(--color-ink);
+      opacity: 0.7;
+    }
+
+    .mobile-sticky-bar .btn-primary {
+      width: auto;
+      padding: 0 var(--space-xl);
+      height: 48px;
+      flex-shrink: 0;
+    }
+
+    @media (min-width: 744px) {
+      .product-tabs {
+        display: flex;
+      }
+
+      .mobile-header {
+        display: none;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .reservation-card {
+        display: block;
+      }
+
+      .mobile-sticky-bar {
+        display: none;
+      }
+
+      body {
+        padding-bottom: 0;
+      }
+    }
+
+    /* Footer (DESIGN.md: 48px 80px, content capped at 1280px) */
+    .footer-light {
+      background-color: var(--color-surface-soft);
+      border-top: 1px solid var(--color-hairline);
+      padding: var(--space-xxl) var(--space-lg) var(--space-xl);
+      margin-top: 0;
+      width: 100%;
+    }
+
+    @media (min-width: 744px) {
+      .footer-light {
+        padding: var(--space-xxl) var(--space-xxl) var(--space-xl);
+      }
+    }
+
+    @media (min-width: 1128px) {
+      .footer-light {
+        padding: var(--space-xxl) max(80px, calc((100vw - 1280px) / 2)) var(--space-xl);
+      }
+    }
+
+    .legal-band {
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      line-height: 1.23;
+      color: var(--color-ink);
+      opacity: 0.7;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Nav Desktop -->
+  <header class="top-nav">
+    <a href="index.html" class="top-nav__brand">
+      <svg viewBox="0 0 32 32">
+        <path d="M16 1c2.008 0 3.463.963 4.751 3.269l.533 1.025c1.954 3.83 6.114 12.54 7.1 14.836l.145.353c.667 1.591.91 2.472.96 3.396l.011.321c0 4.14-3.238 7.8-8.204 7.8-3.084 0-5.36-1.503-6.296-3.878-.936 2.375-3.212 3.878-6.296 3.878-4.966 0-8.204-3.66-8.204-7.8 0-1.294.331-2.585 1.116-4.07l.145-.353c.986-2.296 5.146-11.006 7.1-14.836l.533-1.025C8.037 1.963 9.492 1 11.5 1h4.5zm0 24.3c2.72 0 4.5-1.895 4.5-4.5 0-2.48-1.572-5.714-4.5-10.748-2.928 5.034-4.5 8.268-4.5 10.748 0 2.605 1.78 4.5 4.5 4.5zm0-2.7c-1.285 0-2.1-1.007-2.1-2.1 0-1.87 1.341-4.793 3.6-8.918 2.259 4.125 3.6 7.048 3.6 8.918 0 1.093-.815 2.1-2.1 2.1h-3z"/>
+      </svg>
+      <span>CampusReuse</span>
+    </a>
+
+    <nav class="product-tabs" aria-label="Navigasi">
+      <a href="index.html" class="product-tab product-tab--active">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Cari Barang</span>
+      </a>
+      <a href="donasi.html" class="product-tab">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/></svg>
+        <span>Donasi Saya</span>
+      </a>
+      <a href="permintaan.html" class="product-tab">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/></svg>
+        <span>Permintaan</span>
+      </a>
+    </nav>
+
+    <div class="top-nav__utils">
+      <a href="akun.html" class="user-pill-btn" aria-label="Akun">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <div class="user-avatar-circle">AF</div>
+      </a>
+    </div>
+  </header>
+
+  <!-- Mobile Header -->
+  <header class="mobile-header">
+    <a href="index.html" class="icon-btn-circle" aria-label="Kembali">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    </a>
+    <div style="font-weight: 600; font-size: 15px;">Detail Barang</div>
+    <div style="width: 48px;"></div>
+  </header>
+
+  <main class="detail-container">
+    <!-- Header Title -->
+    <div class="listing-headline">
+      <h1 class="listing-headline__title">Kabel USB-C 1 Meter (Nylon Braided)</h1>
+      <div class="listing-headline__bar">
+        <div class="listing-headline__meta">
+          <div class="meta-status">
+            <span class="meta-status__dot"></span>
+            <span>Tersedia</span>
+          </div>
+          <span>•</span>
+          <span class="meta-location">Gedung Teknik Informatika, Institut Teknologi Tangerang Selatan</span>
+          <span>•</span>
+          <span>Aksesori Teknologi</span>
+        </div>
+
+        <div class="listing-actions">
+          <button class="listing-action-btn" onclick="alert('Tautan halaman disalin');">
+            Bagikan
+          </button>
+          <button class="listing-action-btn" onclick="alert('Disimpan ke daftar');">
+            Simpan
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Photo Banner -->
+    <div class="listing-photo-frame">
+      <img src="https://picsum.photos/seed/usbcable/1200/600" alt="Foto Kabel USB-C 1 Meter">
+    </div>
+
+    <!-- Listing 2-Column Layout (100% Fluid Container) -->
+    <div class="listing-layout">
+      <!-- Left Body -->
+      <div class="listing-body">
+
+        <!-- Rating Moment -->
+        <div class="rating-display-card">
+          <div class="rating-display__number-wrap">
+            <svg class="laurel-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+            <div class="rating-display__number">100%</div>
+            <svg class="laurel-icon" viewBox="0 0 24 24" fill="currentColor" style="transform: scaleX(-1);"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+          </div>
+          <div class="rating-display__tagline">Barang Terverifikasi Mahasiswa</div>
+          <p class="rating-display__desc">Barang ini siap diserahterimakan kepada sesama mahasiswa Institut Teknologi Tangerang Selatan untuk menunjang perkuliahan.</p>
+        </div>
+
+        <!-- Host Card -->
+        <div class="host-card">
+          <div class="host-card__avatar">AF</div>
+          <div class="host-card__info">
+            <h2 class="host-card__name">Pemberi: Ahmad Fauzan</h2>
+            <p class="host-card__meta">Teknik Informatika • Institut Teknologi Tangerang Selatan • Respon Cepat</p>
+          </div>
+        </div>
+
+        <div class="hairline-sep"></div>
+
+        <!-- Amenity Rows (Transparansi Kondisi) -->
+        <div class="amenity-list">
+          <div class="amenity-row">
+            <svg class="amenity-row__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <div>
+              <h3 class="amenity-row__title">Kondisi Fisik: Baik</h3>
+              <p class="amenity-row__desc">Sedikit bekas pemakaian wajar, konektor kokoh tanpa korosi atau longgar.</p>
+            </div>
+          </div>
+
+          <div class="amenity-row">
+            <svg class="amenity-row__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <div>
+              <h3 class="amenity-row__title">Fungsi: Charging & Transfer Data</h3>
+              <p class="amenity-row__desc">Mendukung pengisian daya cepat hingga 60W dan sinkronisasi data antar perangkat praktikum.</p>
+            </div>
+          </div>
+
+          <div class="amenity-row">
+            <svg class="amenity-row__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div>
+              <h3 class="amenity-row__title">Kekurangan: Tanpa Kemasan Asli</h3>
+              <p class="amenity-row__desc">Kemasan pabrik sudah tidak ada, diserahkan dalam bentuk kabel unit siap pakai.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hairline-sep"></div>
+
+        <!-- Description -->
+        <div class="description-block">
+          <h3 class="section-heading">Deskripsi Barang</h3>
+          <p>
+            Kabel USB-C to USB-A dengan panjang 1 meter berbahan nylon braided tebal warna hitam abu-abu yang awet dan tidak mudah kusut. Saya donasikan karena sudah berganti ke kabel bawaan laptop baru. Sangat cocok bagi mahasiswa yang membutuhkan kabel tambahan untuk kegiatan praktikum di lab komputer atau tugas kuliah di kampus.
+          </p>
+        </div>
+
+        <div class="hairline-sep"></div>
+
+        <!-- Lokasi -->
+        <div>
+          <h3 class="section-heading">Titik Serah Terima</h3>
+          <p class="section-text">
+            Area Gedung Lab Informatika Lantai 2 atau Rektorat Institut Teknologi Tangerang Selatan saat jam istirahat kuliah (Senin - Jumat, 12:00 - 13:30 WIB).
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Right Sticky Reservation Rail -->
+      <aside class="reservation-card" aria-label="Permintaan Donasi">
+        <div class="reservation-card__status-line">
+          Status: Tersedia
+        </div>
+
+        <div class="reservation-card__box">
+          <div class="reservation-card__cell">
+            <div class="reservation-card__cell-label">Ketersediaan</div>
+            <div class="reservation-card__cell-val">Siap untuk Diajukan</div>
+          </div>
+          <div class="reservation-card__cell">
+            <div class="reservation-card__cell-label">Lokasi Kampus</div>
+            <div class="reservation-card__cell-val">Institut Teknologi Tangerang Selatan</div>
+          </div>
+        </div>
+
+        <a href="konfirmasi.html" class="btn-primary">
+          Saya Butuh
+        </a>
+
+        <p class="reservation-card__note">
+          Permintaan akan dikirimkan langsung ke mahasiswa pemberi barang untuk konfirmasi serah terima.
+        </p>
+
+        <div class="handover-info">
+          <div class="handover-row">
+            <span>Metode</span>
+            <span>Serah Terima Langsung</span>
+          </div>
+          <div class="handover-row">
+            <span>Verifikasi</span>
+            <span>Akun Mahasiswa Aktif</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Mobile Sticky Bottom Bar -->
+  <div class="mobile-sticky-bar">
+    <div class="mobile-sticky-bar__left">
+      <span class="mobile-sticky-bar__title">Kabel USB-C 1 Meter</span>
+      <span class="mobile-sticky-bar__status">Status: Tersedia</span>
+    </div>
+    <a href="konfirmasi.html" class="btn-primary">
+      Saya Butuh
+    </a>
+  </div>
+
+  <!-- Footer Light -->
+  <footer class="footer-light">
+    <div class="legal-band">
+      <div>© 2026 CampusReuse, Inc. • Institut Teknologi Tangerang Selatan</div>
+      <div>Teknik Informatika, Institut Teknologi Tangerang Selatan</div>
+    </div>
+  </footer>
+
+</body>
+</html>

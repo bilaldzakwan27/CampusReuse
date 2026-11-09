@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Konfirmasi Permintaan - CampusReuse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== 3-Color Strict Palette (Rausch #ff385c, Ink #222222, Canvas #ffffff) ===== */
+    :root {
+      --color-primary: #ff385c;
+      --color-primary-active: #e00b41;
+      --color-ink: #222222;
+      --color-canvas: #ffffff;
+      --color-hairline: #2222221f;
+      --color-hairline-soft: #2222220f;
+      --color-surface-soft: #22222208;
+
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
+
+      --rounded-none: 0px;
+      --rounded-xs: 4px;
+      --rounded-sm: 8px;
+      --rounded-md: 14px;
+      --rounded-lg: 20px;
+      --rounded-xl: 32px;
+      --rounded-full: 9999px;
+
+      --space-xxs: 2px;
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 12px;
+      --space-base: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-xxl: 48px;
+      --space-section: 64px;
+
+      /* Layout (DESIGN.md: 1280px editorial, 1080px detail) */
+      --container-max: 1280px;
+      --shell-max: 1440px;
+      --container-detail: 1080px;
+      --detail-shell: 1240px;
+
+      --shadow-tier: rgba(34, 34, 34, 0.04) 0 0 0 1px, rgba(34, 34, 34, 0.06) 0 2px 8px 0;
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--color-canvas);
+      color: var(--color-ink);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      padding-bottom: 68px;
+      width: 100%;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    button {
+      font-family: var(--font-family);
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    /* TOP NAV (DESIGN.md: 80px height, 80px desktop gutters) */
+    .top-nav {
+      background-color: var(--color-canvas);
+      height: 80px;
+      border-bottom: 1px solid var(--color-hairline);
+      padding: 0 var(--space-lg);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    @media (min-width: 744px) {
+      .top-nav {
+        padding: 0 var(--space-xxl);
+      }
+    }
+
+    @media (min-width: 1128px) {
+      .top-nav {
+        padding: 0 max(80px, calc((100vw - 1280px) / 2));
+      }
+    }
+
+    .top-nav__brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      color: var(--color-primary);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      flex-shrink: 0;
+    }
+
+    .top-nav__brand svg {
+      width: 32px;
+      height: 32px;
+      fill: var(--color-primary);
+    }
+
+    @media (min-width: 744px) and (max-width: 899px) {
+      .top-nav__brand span {
+        display: none;
+      }
+    }
+
+    .user-pill-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-xs) var(--space-xs) var(--space-xs) var(--space-md);
+      border: 1px solid var(--color-hairline);
+      border-radius: var(--rounded-full);
+      background-color: var(--color-canvas);
+      cursor: pointer;
+    }
+
+    .user-avatar-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--rounded-full);
+      background-color: var(--color-ink);
+      color: var(--color-canvas);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* MOBILE HEADER */
+    .mobile-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-md) var(--space-lg);
+      min-height: 64px;
+      background-color: var(--color-canvas);
+      position: sticky;
+      top: 80px; /* sticks directly below the 80px top-nav instead of hiding behind it */
+      z-index: 90;
+      border-bottom: 1px solid var(--color-hairline);
+    }
+
+    .icon-btn-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--rounded-full);
+      background-color: var(--color-surface-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-ink);
+    }
+
+    /* CONTAINER (DESIGN.md: 1280px centered, focused 640px column) */
+    .confirm-container {
+      width: 100%;
+      max-width: var(--shell-max);
+      margin: 0 auto;
+      padding: var(--space-lg);
+      box-sizing: border-box;
+    }
+
+    @media (min-width: 744px) {
+      .confirm-container {
+        padding: var(--space-xl) var(--space-xxl) var(--space-section);
+      }
+    }
+
+    @media (min-width: 1128px) {
+      .confirm-container {
+        padding: var(--space-xl) 80px var(--space-section);
+      }
+    }
+
+    .confirm-wrapper {
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-ink);
+      margin-bottom: var(--space-lg);
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.44px;
+      color: var(--color-ink);
+      line-height: 1.2;
+      margin-bottom: var(--space-xs);
+    }
+
+    .page-subtitle {
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--color-ink);
+      opacity: 0.7;
+      margin-bottom: var(--space-xl);
+    }
+
+    /* Summary Card */
+    .summary-card {
+      background-color: var(--color-canvas);
+      border: 1px solid var(--color-hairline);
+      border-radius: var(--rounded-md);
+      box-shadow: var(--shadow-tier);
+      padding: var(--space-lg);
+      display: flex;
+      gap: var(--space-base);
+      margin-bottom: var(--space-xl);
+      width: 100%;
+    }
+
+    .summary-card__img {
+      width: 100px;
+      height: 100px;
+      border-radius: var(--rounded-sm);
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .summary-card__details {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: var(--space-xs);
+      min-width: 0;
+    }
+
+    .summary-card__cat {
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.33;
+      text-transform: uppercase;
+      letter-spacing: 0.32px;
+      color: var(--color-ink);
+      opacity: 0.6;
+    }
+
+    .summary-card__title {
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.18px;
+      color: var(--color-ink);
+    }
+
+    .summary-card__donor {
+      font-size: 14px;
+      line-height: 1.43;
+      color: var(--color-ink);
+      opacity: 0.8;
+    }
+
+    /* Terms Box */
+    .terms-box {
+      border: 1px solid var(--color-hairline);
+      border-radius: var(--rounded-md);
+      padding: var(--space-lg);
+      background-color: var(--color-surface-soft);
+      margin-bottom: var(--space-xl);
+    }
+
+    .terms-box__title {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--color-ink);
+      margin-bottom: var(--space-xs);
+    }
+
+    .terms-box__desc {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--color-ink);
+      opacity: 0.7;
+    }
+
+    /* Actions */
+    .btn-primary {
+      width: 100%;
+      height: 48px;
+      background-color: var(--color-primary);
+      color: var(--color-canvas);
+      font-size: 16px;
+      font-weight: 500;
+      border-radius: var(--rounded-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.15s;
+      margin-bottom: var(--space-sm);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--color-primary-active);
+    }
+
+    .btn-secondary {
+      width: 100%;
+      height: 48px;
+      background-color: var(--color-canvas);
+      color: var(--color-ink);
+      border: 1px solid var(--color-ink);
+      font-size: 16px;
+      font-weight: 500;
+      border-radius: var(--rounded-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.15s;
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--color-surface-soft);
+    }
+
+    /* Mobile Bottom Nav */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 68px;
+      background-color: var(--color-canvas);
+      border-top: 1px solid var(--color-hairline);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 100;
+      width: 100%;
+    }
+
+    .bottom-nav__item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: var(--color-ink);
+      opacity: 0.6;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 12px;
+    }
+
+    .bottom-nav__icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    @media (min-width: 744px) {
+      .mobile-header {
+        display: none;
+      }
+
+      .bottom-nav {
+        display: none;
+      }
+
+      body {
+        padding-bottom: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Nav Desktop -->
+  <header class="top-nav">
+    <a href="index.html" class="top-nav__brand">
+      <svg viewBox="0 0 32 32">
+        <path d="M16 1c2.008 0 3.463.963 4.751 3.269l.533 1.025c1.954 3.83 6.114 12.54 7.1 14.836l.145.353c.667 1.591.91 2.472.96 3.396l.011.321c0 4.14-3.238 7.8-8.204 7.8-3.084 0-5.36-1.503-6.296-3.878-.936 2.375-3.212 3.878-6.296 3.878-4.966 0-8.204-3.66-8.204-7.8 0-1.294.331-2.585 1.116-4.07l.145-.353c.986-2.296 5.146-11.006 7.1-14.836l.533-1.025C8.037 1.963 9.492 1 11.5 1h4.5zm0 24.3c2.72 0 4.5-1.895 4.5-4.5 0-2.48-1.572-5.714-4.5-10.748-2.928 5.034-4.5 8.268-4.5 10.748 0 2.605 1.78 4.5 4.5 4.5zm0-2.7c-1.285 0-2.1-1.007-2.1-2.1 0-1.87 1.341-4.793 3.6-8.918 2.259 4.125 3.6 7.048 3.6 8.918 0 1.093-.815 2.1-2.1 2.1h-3z"/>
+      </svg>
+      <span>CampusReuse</span>
+    </a>
+
+    <div class="top-nav__utils">
+      <a href="akun.html" class="user-pill-btn" aria-label="Akun">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <div class="user-avatar-circle">AF</div>
+      </a>
+    </div>
+  </header>
+
+  <!-- Mobile Header -->
+  <header class="mobile-header">
+    <a href="detail.html" class="icon-btn-circle" aria-label="Kembali">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    </a>
+    <div style="font-weight: 600; font-size: 15px;">Konfirmasi Permintaan</div>
+    <div style="width: 48px;"></div>
+  </header>
+
+  <main class="confirm-container">
+    <div class="confirm-wrapper">
+      <a href="detail.html" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Kembali ke Detail Barang
+      </a>
+
+      <h1 class="page-title">Konfirmasi Pengajuan Barang</h1>
+      <p class="page-subtitle">Pastikan kamu membutuhkan barang ini untuk kegiatan perkuliahan di Institut Teknologi Tangerang Selatan.</p>
+
+      <!-- Summary Card -->
+      <div class="summary-card">
+        <img src="https://picsum.photos/seed/usbcable/400/400" alt="Kabel USB-C 1 Meter" class="summary-card__img">
+        <div class="summary-card__details">
+          <span class="summary-card__cat">Aksesori Teknologi • Kondisi: Baik</span>
+          <h2 class="summary-card__title">Kabel USB-C 1 Meter (Nylon)</h2>
+          <p class="summary-card__donor">Pemberi: <strong>Ahmad Fauzan</strong> (Teknik Informatika ITTS)</p>
+        </div>
+      </div>
+
+      <!-- Community Terms -->
+      <div class="terms-box">
+        <h3 class="terms-box__title">Komitmen Mahasiswa ITTS</h3>
+        <p class="terms-box__desc">
+          Nama dan identitas fakultasmu akan dikirimkan kepada pemberi barang. Jika terpilih, kamu berkomitmen untuk mengambil barang secara langsung di titik serah terima kampus yang disepakati.
+        </p>
+      </div>
+
+      <button type="button" class="btn-primary" id="btnConfirm">
+        Konfirmasi Pengajuan
+      </button>
+      <a href="detail.html" class="btn-secondary">
+        Batal
+      </a>
+    </div>
+  </main>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="bottom-nav" aria-label="Navigasi Bawah">
+    <a href="index.html" class="bottom-nav__item">
+      <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Cari</span>
+    </a>
+    <a href="donasi.html" class="bottom-nav__item">
+      <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+      <span>Donasi</span>
+    </a>
+    <a href="permintaan.html" class="bottom-nav__item">
+      <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      <span>Permintaan</span>
+    </a>
+    <a href="akun.html" class="bottom-nav__item">
+      <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Profil</span>
+    </a>
+  </nav>
+
+  <script>
+    (function() {
+      'use strict';
+      const btn = document.getElementById('btnConfirm');
+      btn.addEventListener('click', function() {
+        alert('Permintaan berhasil diajukan! Status pengajuanmu sekarang Menunggu.');
+        window.location.href = 'permintaan.html';
+      });
+    })();
+  </script>
+</body>
+</html>

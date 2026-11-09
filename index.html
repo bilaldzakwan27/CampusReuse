@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusReuse - Berbagi Barang Institut Teknologi Tangerang Selatan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== DESIGN.md Exact Spacing & 3-Color Tokens ===== */
+    :root {
+      /* Colors (Strict 3 Colors) */
+      --color-primary: #ff385c;
+      --color-primary-active: #e00b41;
+      --color-ink: #222222;
+      --color-canvas: #ffffff;
+      --color-hairline: #2222221f;
+      --color-hairline-soft: #2222220f;
+      --color-surface-soft: #22222208;
+
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
+
+      /* Rounded (DESIGN.md) */
+      --rounded-none: 0px;
+      --rounded-xs: 4px;
+      --rounded-sm: 8px;
+      --rounded-md: 14px;
+      --rounded-lg: 20px;
+      --rounded-xl: 32px;
+      --rounded-full: 9999px;
+
+      /* Spacing (DESIGN.md Section 422) */
+      --space-xxs: 2px;
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 12px;
+      --space-base: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-xxl: 48px;
+      --space-section: 64px;
+
+      /* Layout (DESIGN.md: 1280px editorial container, 1080px detail) */
+      --container-max: 1280px;
+      --shell-max: 1440px;
+      --container-detail: 1080px;
+      --detail-shell: 1240px;
+      --gutter: 24px;
+
+      /* Elevation */
+      --shadow-tier: rgba(34, 34, 34, 0.04) 0 0 0 1px, rgba(34, 34, 34, 0.06) 0 2px 8px 0;
+      --shadow-search: 0 3px 12px rgba(34, 34, 34, 0.08), 0 1px 2px rgba(34, 34, 34, 0.04);
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--color-canvas);
+      color: var(--color-ink);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      padding-bottom: 68px;
+      width: 100%;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    button, select, input {
+      font-family: var(--font-family);
+    }
+
+    /* ===== TOP NAVIGATION (DESIGN.md: 80px height, 1px bottom hairline) ===== */
+    .top-nav {
+      background-color: var(--color-canvas);
+      height: 80px;
+      border-bottom: 1px solid var(--color-hairline);
+      padding: 0 var(--space-lg);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    @media (min-width: 744px) {
+      .top-nav {
+        padding: 0 var(--space-xxl);
+      }
+    }
+
+    @media (min-width: 1128px) {
+      .top-nav {
+        padding: 0 max(80px, calc((100vw - 1280px) / 2));
+      }
+    }
+
+    .top-nav__brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      color: var(--color-primary);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      flex-shrink: 0;
+    }
+
+    .top-nav__brand svg {
+      width: 32px;
+      height: 32px;
+      fill: var(--color-primary);
+    }
+
+    @media (min-width: 744px) and (max-width: 899px) {
+      .top-nav__brand span {
+        display: none;
+      }
+    }
+
+    /* Product Tabs */
+    .product-tabs {
+      display: none;
+      align-items: center;
+      gap: var(--space-base);
+    }
+
+    .product-tab {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-ink);
+      opacity: 0.65;
+      border-bottom: 2px solid transparent;
+      transition: opacity 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+
+    .product-tab:hover {
+      opacity: 1;
+    }
+
+    .product-tab--active {
+      opacity: 1;
+      border-bottom-color: var(--color-ink);
+    }
+
+    .product-tab svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .top-nav__utils {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .btn-host-pill {
+      display: none;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-ink);
+      padding: 10px var(--space-base);
+      border-radius: var(--rounded-full);
+      transition: background-color 0.15s;
+    }
+
+    .btn-host-pill:hover {
+      background-color: var(--color-surface-soft);
+    }
+
+    .user-pill-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: 6px 6px 6px 14px;
+      border: 1px solid var(--color-hairline);
+      border-radius: var(--rounded-full);
+      background-color: var(--color-canvas);
+      cursor: pointer;
+    }
+
+    .user-pill-btn:hover {
+      border-color: var(--color-ink);
+    }
+
+    .user-avatar-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--rounded-full);
+      background-color: var(--color-ink);
+      color: var(--color-canvas);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* ===== SEARCH HERO (DESIGN.md: 64px height pill, 8px 24px padding segment, 48px orb) ===== */
+    .search-hero-section {
+      padding: var(--space-lg) var(--space-lg) var(--space-base);
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    @media (min-width: 744px) {
+      .search-hero-section {
+        padding: var(--space-xl) var(--space-xxl) var(--space-base);
+      }
+    }
+
+    @media (min-width: 1128px) {
+      .search-hero-section {
+        padding: var(--space-xl) 80px var(--space-base);
+      }
+    }
+
+    .search-bar-pill {
+      background-color: var(--color-canvas);
+      border-radius: var(--rounded-full);
+      border: 1px solid var(--color-hairline);
+      box-shadow: var(--shadow-search);
+      display: flex;
+      align-items: center;
+      width: 100%;
+      max-width: 880px;
+      height: 64px;
+      padding-left: var(--space-sm);
+      padding-right: var(--space-sm);
+      transition: border-color 0.15s;
+    }
+
+    .search-bar-pill:hover {
+      border-color: var(--color-ink);
+    }
+
+    .search-segment {
+      flex: 1;
+      padding: var(--space-sm) var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .search-segment__label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-ink);
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      line-height: 1.25;
+    }
+
+    .search-segment__input {
+      border: none;
+      outline: none;
+      font-size: 14px;
+      color: var(--color-ink);
+      background: transparent;
+      padding: var(--space-xxs) 0 0;
+      width: 100%;
+      line-height: 1.43;
+    }
+
+    .search-segment__select {
+      border: none;
+      outline: none;
+      font-size: 14px;
+      color: var(--color-ink);
+      background: transparent;
+      padding: var(--space-xxs) 0 0;
+      width: 100%;
+      cursor: pointer;
+      appearance: none;
+      font-weight: 500;
+      line-height: 1.43;
+    }
+
+    .search-segment__select option {
+      background-color: var(--color-canvas);
+      color: var(--color-ink);
+    }
+
+    .search-divider {
+      width: 1px;
+      height: 32px;
+      background-color: var(--color-hairline);
+    }
+
+    .search-orb {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--rounded-full);
+      background-color: var(--color-primary);
+      color: var(--color-canvas);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.15s, transform 0.1s;
+    }
+
+    .search-orb:hover {
+      background-color: var(--color-primary-active);
+    }
+
+    .search-orb:active {
+      transform: scale(0.96);
+    }
+
+    @media (max-width: 743px) {
+      .search-segment--desktop-only,
+      .search-divider {
+        display: none;
+      }
+
+      .search-bar-pill {
+        height: 56px;
+        padding-left: var(--space-base);
+      }
+    }
+
+    /* ===== CATEGORY STRIP (DESIGN.md: 4px micro-dividers, 24px vertical padding) ===== */
+    .category-band {
+      border-bottom: 1px solid var(--color-hairline);
+      padding: 0 var(--space-lg);
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      display: flex;
+      width: 100%;
+    }
+
+    @media (min-width: 744px) {
+      .category-band {
+        padding: 0 var(--space-xxl);
+      }
+    }
+
+    @media (min-width: 1128px) {
+      .category-band {
+        padding: 0 max(80px, calc((100vw - 1280px) / 2));
+      }
+    }
+
+    .category-band::-webkit-scrollbar {
+      display: none;
+    }
+
+    .category-band__inner {
+      display: flex;
+      gap: var(--space-xl);
+      min-width: max-content;
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+    }
+
+    .category-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-md) var(--space-xs) var(--space-md);
+      color: var(--color-ink);
+      opacity: 0.6;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      background: none;
+      transition: opacity 0.15s, border-color 0.15s;
+    }
+
+    .category-tab:hover {
+      opacity: 1;
+    }
+
+    .category-tab--active {
+      opacity: 1;
+      border-bottom-color: var(--color-ink);
+    }
+
+    .category-tab svg {
+      width: 24px;
+      height: 24px;
+      stroke-width: 1.8;
+    }
+
+    .category-tab__label {
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    /* ===== MAIN MARKETPLACE (DESIGN.md: 16px card gutters, 64px section padding) ===== */
+    .main-marketplace {
+      width: 100%;
+      max-width: var(--shell-max);
+      margin: 0 auto;
+      padding: var(--space-lg) var(--space-lg) var(--space-section);
+      box-sizing: border-box;
+    }
+
+    @media (min-width: 744px) {
+      .main-marketplace {
+        padding: var(--space-xl) var(--space-xxl) var(--space-section);
+      }
+    }
+
+    @media (min-width: 1128px) {
+      .main-marketplace {
+        padding: var(--space-xl) 80px var(--space-section);
+      }
+    }
+
+    /* Cards Grid (DESIGN.md: 16px gutters, 1 / 2 / 4 columns) */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-base);
+      width: 100%;
+    }
+
+    @media (min-width: 744px) {
+      .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1128px) {
+      .cards-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    /* Property Card */
+    .property-card {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .property-card__photo-box {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      border-radius: var(--rounded-md); /* 14px */
+      overflow: hidden;
+      background-color: var(--color-surface-soft);
+      margin-bottom: var(--space-md);    /* 12px */
+      border: 1px solid var(--color-hairline);
+    }
+
+    .property-card__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.25s ease;
+    }
+
+    .property-card:hover .property-card__img {
+      transform: scale(1.02);
+    }
+
+    /* Guest Favorite / Status Badge (DESIGN.md: 4px 10px padding) */
+    .status-badge {
+      position: absolute;
+      top: var(--space-md);
+      left: var(--space-md);
+      background-color: var(--color-canvas);
+      color: var(--color-ink);
+      border: 1px solid var(--color-hairline);
+      font-size: 11px;
+      font-weight: 600;
+      padding: var(--space-xs) 10px;
+      border-radius: var(--rounded-full);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 4px rgba(34, 34, 34, 0.08);
+    }
+
+    .status-badge__dot {
+      width: 6px;
+      height: 6px;
+      background-color: var(--color-primary);
+      border-radius: 50%;
+    }
+
+    .heart-btn {
+      position: absolute;
+      top: var(--space-md);
+      right: var(--space-md);
+      width: 32px;
+      height: 32px;
+      border-radius: var(--rounded-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-canvas);
+      background: var(--color-ink);
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s, background-color 0.15s;
+    }
+
+    .heart-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .heart-btn.is-saved {
+      background-color: var(--color-primary);
+    }
+
+    /* Meta text layout (DESIGN.md: 2px micro-gap between lines, 16px font-size) */
+    .property-card__meta {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xxs); /* 2px */
+    }
+
+    .property-card__row1 {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--space-sm);
+    }
+
+    .property-card__title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-ink);
+      line-height: 1.25;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .property-card__subtitle {
+      font-size: 14px;
+      color: var(--color-ink);
+      opacity: 0.7;
+      line-height: 1.43;
+    }
+
+    .property-card__condition {
+      font-size: 14px;
+      color: var(--color-ink);
+      opacity: 0.6;
+      line-height: 1.43;
+    }
+
+    .property-card__tag-row {
+      margin-top: var(--space-xs); /* 4px */
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-ink);
+      line-height: 1.43;
+    }
+
+    /* Empty state */
+    .empty-state {
+      display: none;
+      text-align: center;
+      padding: var(--space-section) var(--space-base);
+      width: 100%;
+    }
+
+    .empty-state--visible {
+      display: block;
+    }
+
+    .empty-state__title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--color-ink);
+      margin-bottom: var(--space-xs);
+    }
+
+    .empty-state__desc {
+      font-size: 14px;
+      color: var(--color-ink);
+      opacity: 0.7;
+    }
+
+    /* ===== FOOTER LIGHT (DESIGN.md: padding 48px 80px, 3 columns) ===== */
+    .footer-light {
+      background-color: var(--color-surface-soft);
+      border-top: 1px solid var(--color-hairline);
+      padding: var(--space-xxl) var(--space-lg) var(--space-xl);
+      margin-top: 0;
+      width: 100%;
+    }
+
+    @media (min-width: 744px) {
+      .footer-light {
+        padding: var(--space-xxl) var(--space-xxl) var(--space-xl);
+      }
+    }
+
+    @media (min-width: 1128px) {
+      .footer-light {
+        padding: var(--space-xxl) max(80px, calc((100vw - 1280px) / 2)) var(--space-xl);
+      }
+    }
+
+    .footer-columns {
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-lg); /* 24px column gutters */
+      padding-bottom: var(--space-xxl);
+      border-bottom: 1px solid var(--color-hairline);
+    }
+
+    @media (min-width: 744px) {
+      .footer-columns {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .footer-col__title {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.25;
+      color: var(--color-ink);
+      margin-bottom: var(--space-base);
+    }
+
+    .footer-col__list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .footer-col__link {
+      font-size: 14px;
+      color: var(--color-ink);
+      opacity: 0.8;
+      line-height: 1.43;
+    }
+
+    .footer-col__link:hover {
+      text-decoration: underline;
+      opacity: 1;
+    }
+
+    .legal-band {
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding-top: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      font-size: 13px;
+      line-height: 1.23;
+      color: var(--color-ink);
+      opacity: 0.7;
+    }
+
+    @media (min-width: 744px) {
+      .legal-band {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    /* Mobile Bottom Nav */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 68px;
+      background-color: var(--color-canvas);
+      border-top: 1px solid var(--color-hairline);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 100;
+      width: 100%;
+    }
+
+    .bottom-nav__item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-xs);
+      color: var(--color-ink);
+      opacity: 0.6;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px var(--space-md);
+    }
+
+    .bottom-nav__item--active {
+      color: var(--color-primary);
+      opacity: 1;
+    }
+
+    .bottom-nav__icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    @media (min-width: 744px) {
+      .product-tabs {
+        display: flex;
+      }
+
+      .bottom-nav {
+        display: none;
+      }
+
+      body {
+        padding-bottom: 0;
+      }
+    }
+
+    @media (min-width: 1128px) {
+      .btn-host-pill {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Nav Desktop -->
+  <header class="top-nav">
+    <a href="index.html" class="top-nav__brand">
+      <svg viewBox="0 0 32 32">
+        <path d="M16 1c2.008 0 3.463.963 4.751 3.269l.533 1.025c1.954 3.83 6.114 12.54 7.1 14.836l.145.353c.667 1.591.91 2.472.96 3.396l.011.321c0 4.14-3.238 7.8-8.204 7.8-3.084 0-5.36-1.503-6.296-3.878-.936 2.375-3.212 3.878-6.296 3.878-4.966 0-8.204-3.66-8.204-7.8 0-1.294.331-2.585 1.116-4.07l.145-.353c.986-2.296 5.146-11.006 7.1-14.836l.533-1.025C8.037 1.963 9.492 1 11.5 1h4.5zm0 24.3c2.72 0 4.5-1.895 4.5-4.5 0-2.48-1.572-5.714-4.5-10.748-2.928 5.034-4.5 8.268-4.5 10.748 0 2.605 1.78 4.5 4.5 4.5zm0-2.7c-1.285 0-2.1-1.007-2.1-2.1 0-1.87 1.341-4.793 3.6-8.918 2.259 4.125 3.6 7.048 3.6 8.918 0 1.093-.815 2.1-2.1 2.1h-3z"/>
+      </svg>
+      <span>CampusReuse</span>
+    </a>
+
+    <nav class="product-tabs" aria-label="Navigasi Utama">
+      <a href="index.html" class="product-tab product-tab--active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Cari Barang</span>
+      </a>
+      <a href="donasi.html" class="product-tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+        <span>Donasi Saya</span>
+      </a>
+      <a href="permintaan.html" class="product-tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        <span>Permintaan</span>
+      </a>
+    </nav>
+
+    <div class="top-nav__utils">
+      <a href="tambah.html" class="btn-host-pill">Mulai Donasi</a>
+      <a href="akun.html" class="user-pill-btn" aria-label="Profil Pengguna">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <div class="user-avatar-circle">AF</div>
+      </a>
+    </div>
+  </header>
+
+  <!-- ===== SEARCH HERO SECTION ===== -->
+  <section class="search-hero-section">
+    <div class="search-bar-pill">
+      <!-- Segment 1: Keyword Input -->
+      <div class="search-segment">
+        <label class="search-segment__label" for="searchInput">Cari Barang</label>
+        <input type="text" id="searchInput" class="search-segment__input" placeholder="Kabel, lab coat, buku praktikum...">
+      </div>
+
+      <div class="search-divider"></div>
+
+      <!-- Segment 2: Interactive Category Select -->
+      <div class="search-segment search-segment--desktop-only">
+        <label class="search-segment__label" for="categorySelect">Kategori</label>
+        <select id="categorySelect" class="search-segment__select">
+          <option value="semua">Semua Kategori</option>
+          <option value="Aksesori Teknologi">Aksesori Teknologi</option>
+          <option value="Perlengkapan Praktikum">Perlengkapan Praktikum</option>
+          <option value="Peralatan Proyek">Peralatan Proyek</option>
+          <option value="Perlengkapan Kegiatan">Perlengkapan Kegiatan</option>
+          <option value="Kebutuhan Akademik">Kebutuhan Akademik</option>
+        </select>
+      </div>
+
+      <div class="search-divider"></div>
+
+      <!-- Segment 3: Interactive Condition Select -->
+      <div class="search-segment search-segment--desktop-only">
+        <label class="search-segment__label" for="conditionSelect">Kondisi</label>
+        <select id="conditionSelect" class="search-segment__select">
+          <option value="semua">Semua Kondisi</option>
+          <option value="Seperti Baru">Seperti Baru</option>
+          <option value="Baik">Baik</option>
+          <option value="Cukup Baik">Cukup Baik</option>
+        </select>
+      </div>
+
+      <button type="button" class="search-orb" id="searchOrbBtn" aria-label="Terapkan Pencarian">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ===== CATEGORY STRIP ===== -->
+  <nav class="category-band" aria-label="Filter Kategori Cepat">
+    <div class="category-band__inner">
+      <button class="category-tab category-tab--active" data-cat="semua">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span class="category-tab__label">Semua</span>
+      </button>
+
+      <button class="category-tab" data-cat="Aksesori Teknologi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        <span class="category-tab__label">Aksesori Teknologi</span>
+      </button>
+
+      <button class="category-tab" data-cat="Perlengkapan Praktikum">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M10 2v7.31L4.54 19A2 2 0 0 0 6.27 22h11.46a2 2 0 0 0 1.73-3L14 9.31V2"/></svg>
+        <span class="category-tab__label">Praktikum Lab</span>
+      </button>
+
+      <button class="category-tab" data-cat="Peralatan Proyek">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        <span class="category-tab__label">Peralatan Proyek</span>
+      </button>
+
+      <button class="category-tab" data-cat="Perlengkapan Kegiatan">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span class="category-tab__label">Kebutuhan Kuliah</span>
+      </button>
+
+      <button class="category-tab" data-cat="Kebutuhan Akademik">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/></svg>
+        <span class="category-tab__label">Alat Hitung & Tulis</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN MARKETPLACE (100% CONTAINER WITH EXACT SPACING) ===== -->
+  <main class="main-marketplace">
+    <div class="cards-grid" id="itemsGrid">
+
+      <!-- Item 1 -->
+      <article class="property-card" data-name="Kabel USB-C 1 Meter" data-category="Aksesori Teknologi" data-condition="Baik">
+        <a href="detail.html" class="property-card__photo-box">
+          <img src="https://picsum.photos/seed/usbcable/500/500" alt="Kabel USB-C 1 Meter" class="property-card__img" loading="lazy">
+          <div class="status-badge">
+            <span class="status-badge__dot"></span>
+            Tersedia
+          </div>
+          <button type="button" class="heart-btn" aria-label="Simpan barang" onclick="event.preventDefault(); this.classList.toggle('is-saved');">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+        </a>
+        <a href="detail.html" class="property-card__meta">
+          <div class="property-card__row1">
+            <h2 class="property-card__title">Kabel USB-C 1 Meter</h2>
+          </div>
+          <p class="property-card__subtitle">Teknik Informatika - Lab Komputer</p>
+          <p class="property-card__condition">Kondisi: Baik (Fungsi Normal)</p>
+          <div class="property-card__tag-row">Institut Teknologi Tangerang Selatan</div>
+        </a>
+      </article>
+
+      <!-- Item 2 -->
+      <article class="property-card" data-name="Jas Laboratorium Ukuran M" data-category="Perlengkapan Praktikum" data-condition="Seperti Baru">
+        <a href="detail.html" class="property-card__photo-box">
+          <img src="https://picsum.photos/seed/labcoat/500/500" alt="Jas Laboratorium Ukuran M" class="property-card__img" loading="lazy">
+          <div class="status-badge">
+            <span class="status-badge__dot"></span>
+            Tersedia
+          </div>
+          <button type="button" class="heart-btn" aria-label="Simpan barang" onclick="event.preventDefault(); this.classList.toggle('is-saved');">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+        </a>
+        <a href="detail.html" class="property-card__meta">
+          <div class="property-card__row1">
+            <h2 class="property-card__title">Jas Laboratorium Kimia (M)</h2>
+          </div>
+          <p class="property-card__subtitle">Teknik Kimia - Gedung Praktikum</p>
+          <p class="property-card__condition">Kondisi: Seperti Baru</p>
+          <div class="property-card__tag-row">Institut Teknologi Tangerang Selatan</div>
+        </a>
+      </article>
+
+      <!-- Item 3 -->
+      <article class="property-card" data-name="Multimeter Digital Mini" data-category="Peralatan Proyek" data-condition="Baik">
+        <a href="detail.html" class="property-card__photo-box">
+          <img src="https://picsum.photos/seed/multimeter/500/500" alt="Multimeter Digital Mini" class="property-card__img" loading="lazy">
+          <div class="status-badge">
+            <span class="status-badge__dot"></span>
+            Tersedia
+          </div>
+          <button type="button" class="heart-btn" aria-label="Simpan barang" onclick="event.preventDefault(); this.classList.toggle('is-saved');">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+        </a>
+        <a href="detail.html" class="property-card__meta">
+          <div class="property-card__row1">
+            <h2 class="property-card__title">Multimeter Digital DT-830B</h2>
+          </div>
+          <p class="property-card__subtitle">Teknik Elektro - Bengkel Robotik</p>
+          <p class="property-card__condition">Kondisi: Baik (Probe Lengkap)</p>
+          <div class="property-card__tag-row">Institut Teknologi Tangerang Selatan</div>
+        </a>
+      </article>
+
+      <!-- Item 4 -->
+      <article class="property-card" data-name="Arduino Uno R3 Microcontroller" data-category="Peralatan Proyek" data-condition="Baik">
+        <a href="detail.html" class="property-card__photo-box">
+          <img src="https://picsum.photos/seed/arduino/500/500" alt="Arduino Uno R3" class="property-card__img" loading="lazy">
+          <div class="status-badge">
+            <span class="status-badge__dot"></span>
+            Tersedia
+          </div>
+          <button type="button" class="heart-btn" aria-label="Simpan barang" onclick="event.preventDefault(); this.classList.toggle('is-saved');">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+        </a>
+        <a href="detail.html" class="property-card__meta">
+          <div class="property-card__row1">
+            <h2 class="property-card__title">Arduino Uno R3 Board</h2>
+          </div>
+          <p class="property-card__subtitle">Sistem Komputer - Gedung Lab</p>
+          <p class="property-card__condition">Kondisi: Baik (Fungsi Normal)</p>
+          <div class="property-card__tag-row">Institut Teknologi Tangerang Selatan</div>
+        </a>
+      </article>
+
+      <!-- Item 5 -->
+      <article class="property-card" data-name="Kalkulator Scientific Casio FX-991" data-category="Kebutuhan Akademik" data-condition="Baik">
+        <a href="detail.html" class="property-card__photo-box">
+          <img src="https://picsum.photos/seed/calculator/500/500" alt="Kalkulator Scientific Casio" class="property-card__img" loading="lazy">
+          <div class="status-badge">
+            <span class="status-badge__dot"></span>
+            Tersedia
+          </div>
+          <button type="button" class="heart-btn" aria-label="Simpan barang" onclick="event.preventDefault(); this.classList.toggle('is-saved');">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+        </a>
+        <a href="detail.html" class="property-card__meta">
+          <div class="property-card__row1">
+            <h2 class="property-card__title">Kalkulator Scientific Casio</h2>
+          </div>
+          <p class="property-card__subtitle">Teknik Sipil - Ruang Baca</p>
+          <p class="property-card__condition">Kondisi: Baik</p>
+          <div class="property-card__tag-row">Institut Teknologi Tangerang Selatan</div>
+        </a>
+      </article>
+
+      <!-- Item 6 -->
+      <article class="property-card" data-name="Mouse Wireless Logitech B170" data-category="Aksesori Teknologi" data-condition="Baik">
+        <a href="detail.html" class="property-card__photo-box">
+          <img src="https://picsum.photos/seed/wirelessmouse/500/500" alt="Mouse Wireless Logitech" class="property-card__img" loading="lazy">
+          <div class="status-badge">
+            <span class="status-badge__dot"></span>
+            Tersedia
+          </div>
+          <button type="button" class="heart-btn" aria-label="Simpan barang" onclick="event.preventDefault(); this.classList.toggle('is-saved');">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+        </a>
+        <a href="detail.html" class="property-card__meta">
+          <div class="property-card__row1">
+            <h2 class="property-card__title">Mouse Wireless Logitech M170</h2>
+          </div>
+          <p class="property-card__subtitle">Teknik Informatika - Perpustakaan</p>
+          <p class="property-card__condition">Kondisi: Baik</p>
+          <div class="property-card__tag-row">Institut Teknologi Tangerang Selatan</div>
+        </a>
+      </article>
+
+      <!-- Item 7 -->
+      <article class="property-card" data-name="Tas Ransel Hitam Laptop 14 Inch" data-category="Perlengkapan Kegiatan" data-condition="Cukup Baik">
+        <a href="detail.html" class="property-card__photo-box">
+          <img src="https://picsum.photos/seed/blackbackpack/500/500" alt="Tas Ransel Hitam" class="property-card__img" loading="lazy">
+          <div class="status-badge">
+            <span class="status-badge__dot"></span>
+            Tersedia
+          </div>
+          <button type="button" class="heart-btn" aria-label="Simpan barang" onclick="event.preventDefault(); this.classList.toggle('is-saved');">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+        </a>
+        <a href="detail.html" class="property-card__meta">
+          <div class="property-card__row1">
+            <h2 class="property-card__title">Tas Ransel Laptop 14 Inch</h2>
+          </div>
+          <p class="property-card__subtitle">Desain Komunikasi Visual - Gedung Seni</p>
+          <p class="property-card__condition">Kondisi: Cukup Baik</p>
+          <div class="property-card__tag-row">Institut Teknologi Tangerang Selatan</div>
+        </a>
+      </article>
+
+      <!-- Item 8 -->
+      <article class="property-card" data-name="Papan Breadboard 830 Titik & Jumper" data-category="Peralatan Proyek" data-condition="Seperti Baru">
+        <a href="detail.html" class="property-card__photo-box">
+          <img src="https://picsum.photos/seed/breadboard/500/500" alt="Papan Breadboard" class="property-card__img" loading="lazy">
+          <div class="status-badge">
+            <span class="status-badge__dot"></span>
+            Tersedia
+          </div>
+          <button type="button" class="heart-btn" aria-label="Simpan barang" onclick="event.preventDefault(); this.classList.toggle('is-saved');">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+        </a>
+        <a href="detail.html" class="property-card__meta">
+          <div class="property-card__row1">
+            <h2 class="property-card__title">Breadboard 830 Titik + Jumper</h2>
+          </div>
+          <p class="property-card__subtitle">Teknik Elektro - Lab Terpadu</p>
+          <p class="property-card__condition">Kondisi: Seperti Baru</p>
+          <div class="property-card__tag-row">Institut Teknologi Tangerang Selatan</div>
+        </a>
+      </article>
+
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" id="emptyState">
+      <h3 class="empty-state__title">Tidak ada barang yang cocok</h3>
+      <p class="empty-state__desc">Coba sesuaikan kata kunci, kategori, atau filter kondisi pencarian.</p>
+    </div>
+  </main>
+
+  <!-- ===== FOOTER LIGHT ===== -->
+  <footer class="footer-light">
+    <div class="footer-columns">
+      <div class="footer-col">
+        <h4 class="footer-col__title">Bantuan & Panduan</h4>
+        <ul class="footer-col__list">
+          <li><a href="detail.html" class="footer-col__link">Cara Meminta Barang</a></li>
+          <li><a href="tambah.html" class="footer-col__link">Panduan Donasi Barang</a></li>
+          <li><a href="akun.html" class="footer-col__link">Tata Tertib Mahasiswa</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-col__title">Komunitas Kampus</h4>
+        <ul class="footer-col__list">
+          <li><a href="donasi.html" class="footer-col__link">Daftar Barang Tersedia</a></li>
+          <li><a href="index.html" class="footer-col__link">Titik Serah Terima Kampus</a></li>
+          <li><a href="akun.html" class="footer-col__link">Verifikasi Mahasiswa</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-col__title">Institut Teknologi Tangerang Selatan</h4>
+        <ul class="footer-col__list">
+          <li><a href="index.html" class="footer-col__link">Tentang Platform</a></li>
+          <li><a href="index.html" class="footer-col__link">Program Kampus Hijau</a></li>
+          <li><a href="akun.html" class="footer-col__link">Layanan Bantuan</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="legal-band">
+      <div>© 2026 CampusReuse, Inc. • Platform Berbagi Barang Institut Teknologi Tangerang Selatan</div>
+      <div>Institut Teknologi Tangerang Selatan</div>
+    </div>
+  </footer>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="bottom-nav" aria-label="Navigasi Bawah">
+    <a href="index.html" class="bottom-nav__item bottom-nav__item--active">
+      <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Cari</span>
+    </a>
+    <a href="donasi.html" class="bottom-nav__item">
+      <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+      <span>Donasi</span>
+    </a>
+    <a href="permintaan.html" class="bottom-nav__item">
+      <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      <span>Permintaan</span>
+    </a>
+    <a href="akun.html" class="bottom-nav__item">
+      <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Profil</span>
+    </a>
+  </nav>
+
+  <script>
+    (function() {
+      'use strict';
+
+      const searchInput = document.getElementById('searchInput');
+      const categorySelect = document.getElementById('categorySelect');
+      const conditionSelect = document.getElementById('conditionSelect');
+      const searchOrbBtn = document.getElementById('searchOrbBtn');
+      const categoryTabs = document.querySelectorAll('.category-tab');
+      const emptyState = document.getElementById('emptyState');
+      const cards = Array.from(document.querySelectorAll('.property-card'));
+
+      function applyAllFilters() {
+        const query = (searchInput.value || '').toLowerCase().trim();
+        const selectedCat = categorySelect ? categorySelect.value : 'semua';
+        const selectedCond = conditionSelect ? conditionSelect.value : 'semua';
+
+        let matchCount = 0;
+
+        cards.forEach(card => {
+          const name = (card.getAttribute('data-name') || '').toLowerCase();
+          const cat = card.getAttribute('data-category');
+          const cond = card.getAttribute('data-condition');
+
+          const matchQuery = !query || name.includes(query) || cat.toLowerCase().includes(query);
+          const matchCategory = selectedCat === 'semua' || cat === selectedCat;
+          const matchCondition = selectedCond === 'semua' || cond === selectedCond;
+
+          if (matchQuery && matchCategory && matchCondition) {
+            card.style.display = 'flex';
+            matchCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (matchCount === 0) {
+          emptyState.classList.add('empty-state--visible');
+        } else {
+          emptyState.classList.remove('empty-state--visible');
+        }
+      }
+
+      searchInput.addEventListener('input', applyAllFilters);
+
+      if (categorySelect) {
+        categorySelect.addEventListener('change', function() {
+          categoryTabs.forEach(t => {
+            if (t.getAttribute('data-cat') === categorySelect.value) {
+              t.classList.add('category-tab--active');
+            } else {
+              t.classList.remove('category-tab--active');
+            }
+          });
+          applyAllFilters();
+        });
+      }
+
+      if (conditionSelect) {
+        conditionSelect.addEventListener('change', applyAllFilters);
+      }
+
+      searchOrbBtn.addEventListener('click', applyAllFilters);
+
+      categoryTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          categoryTabs.forEach(t => t.classList.remove('category-tab--active'));
+          this.classList.add('category-tab--active');
+          const cat = this.getAttribute('data-cat');
+          if (categorySelect) {
+            categorySelect.value = cat;
+          }
+          applyAllFilters();
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
